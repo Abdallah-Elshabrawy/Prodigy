@@ -49,14 +49,14 @@
 	{
 		"ID":"Slash",
 		"Type":"Enemy",
-		"Damage":10,
-		"Cost":25,
+		"Damage":100,
+		"Cost":50,
 		"SpriteName":"SlashSprite"
 	},
 	{
 		"ID":"Taunt",
 		"Type":"Enemy",
-		"Damage":5,
+		"Damage":30,
 		"Cost":25,
 		"SpriteName":"TauntSprite"
 	}]
@@ -64,8 +64,8 @@
 {
 	"ID":"Warlock",
 	"Type":"Player",
-	"Health":300,
-	"Energy":400,
+	"Health":100,
+	"Energy":300,
 	"x": -35,
 	"y": 300,
 	"SpriteName":"WarlockSprite",
@@ -110,23 +110,23 @@
 	{
 		"ID":"Fire",
 		"Type":"Enemy",
-		"Damage":15,
-		"Cost":25,
+		"Damage":90,
+		"Cost":75,
 		"SpriteName":"FireSprite"
 	},
 	{
 		"ID":"Heal",
 		"Type":"Ally",
-		"Damage":10,
-		"Cost":25,
+		"Damage":100,
+		"Cost":125,
 		"SpriteName":"HealSprite"
 	}]
 }, 
 {
 	"ID":"Thief",
 	"Type":"Player",
-	"Health":200,
-	"Energy":300,
+	"Health":150,
+	"Energy":200,
 	"x": 10,
 	"y": 370,
 	"SpriteName":"ThiefSprite",
@@ -171,15 +171,15 @@
 	{
 		"ID":"ShieldBreaker",
 		"Type":"Enemy",
-		"Damage":5,
-		"Cost":25,
+		"Damage":25,
+		"Cost":15,
 		"SpriteName":"ShieldBreakerSprite"
 	},
 	{
 		"ID":"BackStab",
 		"Type":"Enemy",
-		"Damage":30,
-		"Cost":25,
+		"Damage":75,
+		"Cost":30,
 		"SpriteName":"BackStabSprite"
 	}]
 }

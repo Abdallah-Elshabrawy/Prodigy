@@ -8,6 +8,7 @@
     this.HUDComponents = [];
     var baseValue = 0.45;
 
+    this.skillActiveImage;
     this.skillBar;
     this.skillBarPosX = 300;
     this.skillBarPosY= 520;
@@ -55,7 +56,6 @@
 
         this.HUDComponents = tempArray;
     }
-
     this.CreateSkillsUI= function()
     {
         //skills bar
@@ -71,6 +71,10 @@
         this.skillInfoText = game.add.text(0, 0, "skill", style).alignTo(this.skillInfo, Phaser.TOP_CENTER, 15, -55);;
         this.skillInfoText.anchor.set(0.5);
         this.skillInfoText.visible = false;
+        //skill active image
+        this.skillActiveImage = this.game.add.sprite(0, 0, 'SkillActive');
+        this.skillActiveImage.visible = false;
+        this.skillActiveImage.scale.setTo(0.12, 0.12);
     }
     this.SkillBarVisible = function (value) { this.skillBar.visible = value; }
     this.SkillInfoVisible = function (value) { this.skillInfo.visible = value; }

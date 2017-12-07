@@ -14,7 +14,6 @@ function preload()
     game.load.atlas('KnightSprite', 'assets/Heroes/Knight.png', 'assets/Heroes/Knight_json.json');
     game.load.atlas('WarlockSprite', 'assets/Heroes/Warlock.png', 'assets/Heroes/Warlock_json.json');
     game.load.atlas('ThiefSprite', 'assets/Heroes/Thief.png', 'assets/Heroes/Thief_json.json');
-    game.load.atlas('SkillSprite', 'assets/Skills/Skills.png', 'assets/Skills/Skills_json.json');
     //Sprite Sheets Enemies
     game.load.atlas('SteamSprite', 'assets/Heroes/SteamVamp.png', 'assets/Heroes/SteamVamp_json.json');
     game.load.atlas('GhoulSprite', 'assets/Heroes/Ghoul.png', 'assets/Heroes/Ghoul_json.json');
@@ -22,8 +21,11 @@ function preload()
     //Data
     game.load.text('heroes', 'assets/Data/Heroes.json');
     game.load.text('enemies', 'assets/Data/enemies.json');
+    //skills
+    game.load.atlas('SkillSprite', 'assets/Skills/Skills.png', 'assets/Skills/Skills_json.json');
+    game.load.image('SkillActive', 'assets/Skills/skillActive.png');
     //Audio
-    //game.load.audio('boden', ['assets/audio/bodenstaendig_2000_in_rock_4bit.mp3', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg']);
+    game.load.audio('BGMusic', 'assets/Audio/BGMusic.mp3');
 }
 
 var UIManager;
@@ -31,8 +33,10 @@ var battleManager;
 var entitiesArray;
 var currentHero;
 var currentSkill;
+var music;
 
-function create() {
+function create()
+{
     this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     //Create background
     var background = game.add.sprite(0, 0, 'BG');
@@ -42,65 +46,20 @@ function create() {
     UIManager.CreateSkillsUI();
     //create Battle System
     battleManager = new BattleSystem("BattleManager");
-    //create heroes
-    CreateBattleEntities();
+    //create entities
+    battleManager.CreateBattleEntities(JSON.parse(game.cache.getText('heroes')));
+    battleManager.CreateBattleEntities(JSON.parse(game.cache.getText('enemies')));
     //Display Sprite
     DisplayEntities();
     //create HUD
     UIManager.CreateHUD(battleManager.GetEntitiesArray());
     //Start Battle
     SwitchTurn();
-
     //SFX
-    //FX
-    //start screen //tween
-    //end screen
-    //port to android
-}
-
-function CreateBattleEntities() {
-    var heroesList = JSON.parse(game.cache.getText('heroes'));
-    heroesList.Heroes.forEach(function (element) {
-        var tempHero = new Hero(element.ID,
-            element.Type,
-            element.Health,
-            element.Energy,
-            element.SpriteName);
-
-        tempHero.Animations = element.Animation;
-        tempHero.PosX = element.x;
-        tempHero.PosY = element.y;
-        tempHero.IsAlive = true;
-
-        element.Skills.forEach(function (skill) {
-            tempHero.Skills.push(new Skill(skill.ID, skill.Type, skill.Damage, skill.Cost, skill.SpriteName));
-
-        }, this);
-
-        battleManager.SubscribeEntity(tempHero);
-
-    }, this);
-
-    var enemiesList = JSON.parse(game.cache.getText('enemies'));
-    enemiesList.Heroes.forEach(function (element) {
-        var tempHero = new Hero(element.ID,
-            element.Type,
-            element.Health,
-            element.Energy,
-            element.SpriteName);
-
-        tempHero.Animations = element.Animation;
-        tempHero.PosX = element.x;
-        tempHero.PosY = element.y;
-        tempHero.IsAlive = true;
-
-        element.Skills.forEach(function (skill) {
-            tempHero.Skills.push(new Skill(skill.ID, skill.Type, skill.Damage, skill.Cost, skill.SpriteName));
-        }, this);
-
-        battleManager.SubscribeEntity(tempHero);
-
-    }, this);
+    music = game.add.audio('BGMusic');
+    music.volume = 0.5;
+    music.loop = true;
+    music.play();
 }
 
 function DisplayEntities() {
@@ -199,30 +158,33 @@ function OnSkillOut(sprite, pointer, skill) {
     UIManager.SkillInfoTextVisible(false);
 }
 
-function OnSkillClick(sprite, pointer, skill) {
-    if (currentSkill == null) {
+function OnSkillClick(sprite, pointer, skill)
+{    
+    if (currentSkill != null && currentSkill === skill)
+    {
+        currentSkill.Active = false;
+        currentSkill = null;
+        console.log("Same Skill, no active skill");
+        UIManager.skillActiveImage.visible = false;
+    }
+    else
+    {
         currentSkill = skill;
         currentSkill.Active = true;
-        console.log("Skill Active: " + currentSkill);
-    }
-    else {
-        currentSkill.Active = false;
-
-        if (currentSkill == skill) {
-            currentSkill = null;
-            console.log("Same Skill, no active skill");
-        }
-        else {
-            currentSkill = skill;
-            currentSkill.Active = true;
-            console.log("different skill: " + currentSkill);
-        }
+        console.log("different skill: " + currentSkill);
+        UIManager.skillActiveImage.x = currentSkill.GetSpriteObject().x;
+        UIManager.skillActiveImage.y = currentSkill.GetSpriteObject().y;
+        UIManager.skillActiveImage.visible = true;
+        game.world.bringToTop(UIManager.skillActiveImage);
     }
 }
 
-function OnEntityClick(sprite, pointer, entity) {
-    if (currentSkill != null && currentSkill.Active) {
-        if ((entity.Type === 'AI') && (currentSkill.Type == 'Enemy')) {
+function OnEntityClick(sprite, pointer, entity)
+{
+    if (currentSkill != null && currentSkill.Active)
+    {
+        if ((entity.Type === 'AI') && (currentSkill.Type == 'Enemy'))
+        {
             console.log(currentHero.ID + " attack " + entity.ID);
 
             currentHero.GetSpriteObject().animations.play('attack');
@@ -232,7 +194,8 @@ function OnEntityClick(sprite, pointer, entity) {
             UIManager.UpdateUIComponent(currentHero, entity);
             EndTurn();
         }
-        else if ((entity.Type === 'Player') && (currentSkill.Type == 'Ally')) {
+        else if ((entity.Type === 'Player') && (currentSkill.Type == 'Ally'))
+        {
             console.log(currentHero.ID + " Help " + entity.ID);
 
             currentHero.GetSpriteObject().animations.play('attack');
@@ -265,7 +228,8 @@ function StartTurnAI()
     currentSkill.Active = true;
     var target;
 
-    if (currentSkill.Type == 'Enemy') {
+    if (currentSkill.Type === 'Enemy')
+    {
         console.log("AI attack player");
 
         var playerList = battleManager.GetEntitiesArray().filter(function (obj) { return obj.Type === 'Player'; });
@@ -277,7 +241,7 @@ function StartTurnAI()
         target.GetSpriteObject().animations.play('hurt');
         target.ApplyDamage(currentSkill.Damage);
     }
-    else if (currentSkill.Type == 'Ally') {
+    else if (currentSkill.Type === 'Ally') {
         console.log("AI Help Ally");
 
         var playerList = battleManager.GetEntitiesArray().filter(function (obj) { return obj.Type === 'AI'; });
