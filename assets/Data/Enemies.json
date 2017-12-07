@@ -1,0 +1,186 @@
+{"Heroes":[
+
+{
+	"ID":"Steam",
+	"Type":"AI",
+	"Health":10,
+	"Energy":200,
+	"x": 675,
+	"y": 320,
+	"SpriteName":"SteamSprite",
+	"Animation":[
+	{
+		"ID":"idle",
+		"Prefix":"idle_",
+		"Start":1,
+		"End":6,
+		"FPS":6,
+		"Loop": true,
+		"Callback":false
+	},
+	{
+		"ID":"attack",
+		"Prefix":"attack_",
+		"Start":1,
+		"End":9,
+		"FPS":9,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"hurt",
+		"Prefix":"hurt_",
+		"Start":1,
+		"End":10,
+		"FPS":10,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"die",
+		"Prefix":"die_",
+		"Start":1,
+		"End":12,
+		"FPS":12,
+		"Loop": false,
+		"Callback":false
+	}],
+	"Skills":[ 
+	{
+		"ID":"Slash",
+		"Type":"Enemy",
+		"Damage":10,
+		"Cost":25,
+		"SpriteName":"SlashSprite"
+	},
+	{
+		"ID":"Taunt",
+		"Type":"Enemy",
+		"Damage":5,
+		"Cost":25,
+		"SpriteName":"TauntSprite"
+	}]
+}, 
+{
+	"ID":"Ghoul",
+	"Type":"AI",
+	"Health":10,
+	"Energy":400,
+	"x": 780,
+	"y": 240,
+	"SpriteName":"GhoulSprite",
+	"Animation":[
+	{
+		"ID":"idle",
+		"Prefix":"idle_",
+		"Start":1,
+		"End":6,
+		"FPS":6,
+		"Loop": true,
+		"Callback":false
+	},
+	{
+		"ID":"attack",
+		"Prefix":"attack_",
+		"Start":1,
+		"End":4,
+		"FPS":4,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"hurt",
+		"Prefix":"hurt_",
+		"Start":1,
+		"End":7,
+		"FPS":7,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"die",
+		"Prefix":"die_",
+		"Start":1,
+		"End":12,
+		"FPS":12,
+		"Loop": false,
+		"Callback":false
+	}],
+	"Skills":[ 
+	{
+		"ID":"Fire",
+		"Type":"Enemy",
+		"Damage":15,
+		"Cost":25,
+		"SpriteName":"FireSprite"
+	},
+	{
+		"ID":"Heal",
+		"Type":"Ally",
+		"Damage":10,
+		"Cost":25,
+		"SpriteName":"HealSprite"
+	}]
+}, 
+{
+	"ID":"Nosferatu",
+	"Type":"AI",
+	"Health":10,
+	"Energy":300,
+	"x": 630,
+	"y": 200,
+	"SpriteName":"NosferatuSprite",
+	"Animation":[
+	{
+		"ID":"idle",
+		"Prefix":"idle_",
+		"Start":1,
+		"End":6,
+		"FPS":6,
+		"Loop": true,
+		"Callback":false
+	},
+	{
+		"ID":"attack",
+		"Prefix":"attack_",
+		"Start":1,
+		"End":5,
+		"FPS":5,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"hurt",
+		"Prefix":"hurt_",
+		"Start":1,
+		"End":9,
+		"FPS":9,
+		"Loop": false,
+		"Callback":true
+	},
+	{
+		"ID":"die",
+		"Prefix":"die_",
+		"Start":1,
+		"End":12,
+		"FPS":12,
+		"Loop": false,
+		"Callback":false
+	}],
+	"Skills":[ 
+	{
+		"ID":"ShieldBreaker",
+		"Type":"Enemy",
+		"Damage":5,
+		"Cost":25,
+		"SpriteName":"ShieldBreakerSprite"
+	},
+	{
+		"ID":"BackStab",
+		"Type":"Enemy",
+		"Damage":30,
+		"Cost":25,
+		"SpriteName":"BackStabSprite"
+	}]
+}
+]}
